@@ -14,6 +14,9 @@ class BasePage:
     def find_element(self, locator) -> WebElement:
         return self.driver.find_element(*locator)
 
+    def find_elements(self, locator):
+        return self.driver.find_elements(*locator)
+
     def open_url(self, url):
         self.driver.get(url)
 
@@ -25,6 +28,11 @@ class BasePage:
     def wait_element_is_present(self, locator: tuple, timeout=10):
         WebDriverWait(driver=self.driver, timeout=timeout).until(
             EC.visibility_of_element_located(locator)
+        )
+
+    def wait_elements_are_present(self, locator: tuple, timeout=10):
+        WebDriverWait(driver=self.driver, timeout=timeout).until(
+            EC.presence_of_all_elements_located(locator)
         )
 
     def find_element_by_unique_text(self, text):
