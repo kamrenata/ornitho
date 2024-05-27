@@ -1,5 +1,7 @@
 import os
-from pages.base_page import BasePage, By
+from selenium.webdriver.common.by import By
+from pages.base_page import BasePage
+
 
 project_root = os.path.dirname(os.path.dirname(__file__))
 
