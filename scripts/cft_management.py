@@ -139,8 +139,15 @@ def download_chrome(urls: list, only_driver=False):
 
         try:
             if not only_driver:
-                subprocess.run(["chmod", "-R", "777", CHROME_DIR], check=True)
-            subprocess.run(["chmod", "-R", "777", CHROMEDRIVER_DIR], check=True)
+                if get_platform() in ["win64", "win32"]:
+                    subprocess.run(["icacls", CHROME_DIR, "/grant", "*S-1-1-0:(OI)(CI)F", "/T"], check=True)
+                else:
+                    subprocess.run(["chmod", "-R", "777", CHROME_DIR], check=True)
+            if get_platform() in ["win64", "win32"]:
+                subprocess.run(["icacls", CHROMEDRIVER_DIR, "/grant", "*S-1-1-0:(OI)(CI)F", "/T"], check=True)
+            else:
+                subprocess.run(["chmod", "-R", "777", CHROMEDRIVER_DIR], check=True)
+
         except subprocess.CalledProcessError as e:
             print(f"Error: {e}")
 
